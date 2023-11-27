@@ -5,7 +5,7 @@ import numpy as np
 df = pd.read_csv('Student_scores.csv')
 data.head(5)
 from sklearn.model_selection import train_test_split
-
+from sklearn.metrics
 
 X = df.iloc[:,:-1].values
 y = df.iloc[:,:1].values
