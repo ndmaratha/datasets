@@ -358,23 +358,26 @@ slip 10
 import numpy as np
 import pandas as pd
 from apyori import apriori
-dataset=pd.read_csv('Iris.csv')
-dataset.head()
-records[]
 
-for i in range(0,150):
-records.append([Str(dataset.values[i,j]) for j in range(0,5])
-rules=apriori(records,min_support=0.003,min_confidence=0.2,min_lift=3,min_length=2,max_length=2)
-results=list(rules)
-print(len(results))
-print(results[0])
+dataset = pd.read_csv('Iris.csv')
+dataset.head()
+records = []
+
+for i in range(0, 150):
+    records.append([str(dataset.values[i, j]) for j in range(0, 5)])
+
+# Move the apriori call outside the loop
+rules = apriori(records, min_support=0.003, min_confidence=0.2, min_lift=3, min_length=2, max_length=2)
+results = list(rules)
+
+# Move the loop inside the loop that iterates over the dataset
 for item in results:
-pair=item[0]
-items=[x for x in pair]
-print("Rules"+ items[0]+ ""+ item[1])
-print("Support"+ str(item[1]))
-print("Confidence"+ str(item[2] [0] [2]))
-print("Lift"+ str(item[2] [0] [3]))
+    pair = item[0]
+    items = [x for x in pair]
+    print("Rules: " + items[0] + " -> " + items[1])
+    print("Support: " + str(item[1]))
+    print("Confidence: " + str(item[2][0][2]))
+    print("Lift: " + str(item[2][0][3]))
 
 
 ===================================================================================
