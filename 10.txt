@@ -1,0 +1,172 @@
+slip 1 13
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+int main() {
+ pid_t child_pid;
+ child_pid = fork();
+ if (child_pid == 0) {
+ printf("Child process with PID: %d\n", getpid());
+ nice(10);
+ printf("Child process priority increased\n");
+ } else if (child_pid > 0) {
+ printf("Parent process with PID: %d\n", getpid());
+ wait(NULL);
+ } else {
+ perror("Fork failed");
+ return 1;}
+ return 0;}
+
+
+slip 2 11
+
+ans 1
+
+#include <stdio.h>
+#include <unistd.h>
+int main() {
+ int child_pid = fork();
+ if (child_pid == 0) {
+ printf("Child Process ID: %d\n", getpid());
+ printf("Hello World\n");
+ } else if (child_pid > 0) {
+ printf("Parent Process ID: %d\n", getpid());
+ printf("Hi\n");
+ } else {
+ perror("Fork failed");
+ return 1;}
+ return 0;}
+
+slip3
+
+#include <stdio.h>
+#include <unistd.h>
+int main() {
+ pid_t child_pid = fork();
+ if (child_pid == 0) {
+ printf("Child process (PID: %d)\n", getpid());
+ execl("/bin/ls", "ls", NULL); // Replace with the desired command
+ } else if (child_pid > 0) {
+ printf("Parent process (PID: %d)\n", getpid());
+ wait(NULL); 
+ printf("Child process has terminated.\n");
+ } else {
+ perror("Fork failed");
+ return 1;}
+ return 0;}
+
+
+slip 4 10 12
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+int main() {
+ pid_t child_pid = fork();
+ if (child_pid == 0) {
+ printf("Child process (PID: %d) is running, and its parent (PPID: %d) has terminated.\n", getpid(), getppid());
+ sleep(5); 
+ printf("Child process (PID: %d) has completed.\n", getpid());
+ } else if (child_pid > 0) {
+ printf("Parent process (PID: %d) is running and will terminate shortly.\n", getpid());
+ sleep(2); 
+ printf("Parent process (PID: %d) has terminated.\n", getpid());
+ } else {
+ perror("Fork failed");
+ return 1;}
+ return 0;}
+
+
+slip 5
+
+#include <unistd.h>
+int main() {
+ int child_pid = fork();
+ if (child_pid == 0) {
+ printf("Child process with PID: %d\n", getpid());
+ nice(10);
+ printf("Child process priority increased\n");
+ } else if (child_pid > 0) {
+ printf("Parent process with PID: %d\n", getpid());
+ wait(NULL);
+ } else {
+ perror("Fork failed");
+ return 1;}
+ return 0;}
+
+slip 6 14 16
+
+#include <stdio.h>
+#include <time.h>
+int main() {
+ clock_t start_time, end_time;
+ double execution_time;
+ start_time = clock();
+ for (int i = 0; i < 1000000; i++) {
+ int result = i * i;}
+ end_time = clock();
+ execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+ printf("Execution time: %f seconds\n", execution_time);
+ return 0;}
+
+
+slip 7 9 15 19 20
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+int main() {
+ pid_t child_pid = fork();
+ if (child_pid < 0) {
+ perror("Fork failed");
+ exit(1);}
+ if (child_pid == 0) {
+ execl("/bin/ls", "ls", NULL);
+ perror("Execl failed");
+ exit(1);
+ } else {
+ printf("Parent process is going to sleep for 3 seconds...\n");
+ sleep(3);
+ wait(NULL); 
+ printf("Parent process has woken up.\n");}
+ return 0;
+}
+
+
+slip 8 18
+
+#include <stdio.h>
+int main() {
+ int n, m;
+ printf("Enter processes and resources: ");
+ scanf("%d %d", &n, &m);
+ int alloc[n][m], max[n][m], need[n][m];
+ printf("Enter allocation and max matrices:\n");
+ for (int i = 0; i < n; i++) {
+ for (int j = 0; j < m; j++) {
+ scanf("%d %d", &alloc[i][j], &max[i][j]);
+ need[i][j] = max[i][j] - alloc[i][j];}}
+ printf("Need matrix:\n");
+ for (int i = 0; i < n; i++) {
+ for (int j = 0; j < m; j++) {
+ printf("%d ", need[i][j]);}
+ printf("\n");}
+ return 0;}
+
+
+slip 17
+
+#include <stdio.h>
+int main() {
+ int allocated[3][3] = {{1, 2, 3}, {2, 3, 4}, {3, 4, 5}};
+ int max_demand[3][3] = {{4, 4, 4}, {5, 5, 5}, {6, 6, 6}};
+ int available[3] = {0};
+ for (int i = 0; i < 3; i++) {
+ for (int j = 0; j < 3; j++) {
+ available[j] += max_demand[i][j] - allocated[i][j];}}
+ printf("Minimum resources needed to avoid deadlock: ");
+ for (int i = 0; i < 3; i++) {
+ printf("%d ", available[i]);}
+ printf("\n");
+ return 0;}
